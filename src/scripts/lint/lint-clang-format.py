@@ -28,7 +28,7 @@ for g in globs:
 
 # filter out exclusions
 for exclusion in exclusions:
-    l = filter(lambda file: re.search(exclusion, file) == None, files)
+    l = filter(lambda file: re.search(exclusion, file) is None, files)
     files = list(l)
 
 if len(files) == 0:

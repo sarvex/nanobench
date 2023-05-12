@@ -34,12 +34,12 @@ with open(f"{root}/src/include/nanobench.h", "r") as f:
         if not r:
             continue
 
-        if "MAJOR" == r.group(1):
-            major = r.group(2)
-        elif "MINOR" == r.group(1):
-            minor = r.group(2)
-        elif "PATCH" == r.group(1):
-            patch = r.group(2)
+        if r[1] == "MAJOR":
+            major = r[2]
+        elif r[1] == "MINOR":
+            minor = r[2]
+        elif r[1] == "PATCH":
+            patch = r[2]
         else:
             "match but with something else!"
             exit(1)
@@ -49,10 +49,9 @@ for (filename, pattern, count) in file_pattern_count:
     num_found = 0
     with open(filename, "r") as f:
         for line in f:
-            r = re.search(pattern, line)
-            if r:
+            if r := re.search(pattern, line):
                 num_found += 1
-                if major != r.group(1) or minor != r.group(2) or patch != r.group(3):
+                if major != r[1] or minor != r[2] or patch != r[3]:
                     is_ok = False
                     print(
                         f"ERROR in {filename}: got '{line.strip()}' but version should be '{major}.{minor}.{patch}'")
